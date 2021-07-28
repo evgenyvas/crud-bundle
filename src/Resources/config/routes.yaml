@@ -1,0 +1,38 @@
+app_layout:
+    resource: .
+    type: layout
+    options:
+        expose: true
+
+save_field_params:
+    path: /save_field_params
+    controller: Ecode\CRUDBundle\Controller\ColumnsController::saveFieldParams
+    methods: [POST]
+    options:
+        expose: true
+
+save_filters_data:
+    path: /save_filters_data
+    options:
+        expose: true
+    controller: Ecode\CRUDBundle\Controller\FilterController::saveFiltersData
+
+delete_filters_data:
+    path: /delete_filters_data
+    methods: [DELETE]
+    options:
+        expose: true
+    controller: Ecode\CRUDBundle\Controller\FilterController::deleteFiltersData
+
+save_columns_data:
+    path: /save_columns_data
+    options:
+        expose: true
+    controller: Ecode\CRUDBundle\Controller\ColumnsController::saveColumnsData
+
+delete_columns_data:
+    path: /delete_columns_data
+    methods: [DELETE]
+    options:
+        expose: true
+    controller: Ecode\CRUDBundle\Controller\ColumnsController::deleteColumnsData

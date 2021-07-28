@@ -1,0 +1,78 @@
+
+.tableGrid tr td.grid-operate-column {
+    width: 1%;
+    white-space: nowrap;
+}
+.tableGrid.stickyFirstColumn thead tr,
+.tableGrid.stickyFirstColumn tbody tr,
+.tableGrid.stickyLastColumn thead tr,
+.tableGrid.stickyLastColumn tbody tr {
+    /*display: block;
+    width: min-content;*/
+}
+.tableGrid.stickyFirstColumn thead td:first-child,
+.tableGrid.stickyFirstColumn tbody td:first-child,
+.tableGrid.stickyFirstColumn thead th:first-child,
+.tableGrid.stickyFirstColumn tbody th:first-child {
+    position: sticky;
+    position: -webkit-sticky;
+    left: 0;
+}
+.tableGrid.stickyLastColumn thead td:last-child,
+.tableGrid.stickyLastColumn tbody td:last-child,
+.tableGrid.stickyLastColumn thead th:last-child,
+.tableGrid.stickyLastColumn tbody th:last-child {
+    position: sticky;
+    position: -webkit-sticky;
+    right: 0;
+}
+.field-params-close {
+    margin-top: -0.2rem;
+}
+.field-params-toggle>.dropdown-menu {
+    padding: 0.2rem 0;
+}
+.field-params-toggle>.dropdown-menu>.dropdown-header {
+    padding-bottom: 0.8rem;
+}
+.field-params-container {
+    width: 500px;
+    height: 260px;
+    overflow-y: scroll;
+}
+.field-params-bottom {
+    padding: 0.2rem 1rem;
+}
+.field-params-handle-reorder {
+    opacity: .5;
+    margin: 0 0.5rem;
+    cursor: row-resize;
+}
+.field-params-single-toggle {
+    margin-top: -0.2rem;
+    text-align: left !important;
+}
+.modalmove {
+    z-index: 3000; /* not hide inside modal */
+    position: relative; /* required for tree view */
+}
+.grid-operations-form-wrapper>.b-dropdown-form {
+    padding: 0 !important;
+}
+.grid-inline-image {
+  position: relative;
+  width: 150px;
+}
+.grid-inline-image>img {
+  width: 100%;
+}
+.grid-inline-image-gallery {
+  position: relative;
+  width: 150px;
+}
+.grid-inline-image-gallery>a>img {
+  width: 100%;
+}
+.handle-sortable {
+  cursor: row-resize;
+}

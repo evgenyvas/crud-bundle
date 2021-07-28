@@ -1,0 +1,34 @@
+{# main modal #}
+<b-modal ref="modal" id="modal" class="d-none" v-model="modalShow" :size="modalSize" :centered="true" @hidden="modalHidden" data-size="{{ modal_size }}" data-expanded="{% if modal_expanded %}1{% else %}0{% endif %}" data-expand-size="{{ modal_expand_size }}">
+  <div slot="modal-title"><button type="button" aria-label="Expand" class="btn btn-sm modal-resize" @click="expandModal"><i class="fas fa-expand-arrows-alt" v-show="!isExpanded"></i><i class="fas fa-compress-arrows-alt" v-show="isExpanded"></i></button>{% verbatim %}{{ modalTitle }}{% endverbatim %}</div>
+    <div class="row" v-show="loadingModal">
+        <div class="col text-center">
+            <i class="fas fa-spinner fa-pulse fa-2x fa-fw"></i>
+        </div>
+    </div>
+    <div class="modal-breadcrumbs" v-show="!loadingModal">
+        {% verbatim %}
+        <template v-for="(item, index) in historyChain" v-if="historyChain.length > 1">
+            <template v-if="activeIndex === index">/{{ item.title }}</template>
+            <template v-else>/<a :href="item.link" :title="item.title" :index="index"
+                @click.stop.prevent="loadModal($event)">
+                {{ item.title }}
+            </a></template>
+        </template>
+        {% endverbatim %}
+    </div>
+    <component :is="modalContent"></component>
+    <div slot="modal-footer"><component :is="modalFooterContent"></component></div>
+</b-modal>
+
+{# additional modal #}
+<b-modal ref="modalAdd" id="modal-add" class="d-none" v-model="modalAddShow" size="lg modal-lg-add" :centered="true">
+    <div slot="modal-title" v-html="modalAddTitle"></div>
+    <div class="row" v-show="loadingAddModal">
+        <div class="col text-center">
+            <i class="fas fa-spinner fa-pulse fa-2x fa-fw"></i>
+        </div>
+    </div>
+    <component :is="modalAddContent"></component>
+    <div slot="modal-footer"><component :is="modalAddFooterContent"></component></div>
+</b-modal>

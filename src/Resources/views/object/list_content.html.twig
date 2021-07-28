@@ -1,0 +1,483 @@
+{% block list_content %}
+    {% if render_filter is not defined %}
+        {% set render_filter = true %}
+    {% endif %}
+    {% if add_popup is not defined %}
+        {% set add_popup = true %}
+    {% endif %}
+    {% if view_popup is not defined %}
+        {% set view_popup = true %}
+    {% endif %}
+    {% if edit_popup is not defined %}
+        {% set edit_popup = true %}
+    {% endif %}
+    {% if show_saved_columns is not defined %}
+        {% set show_saved_columns = true %}
+    {% endif %}
+    {% if enable_first_saved_columns is not defined %}
+        {% set enable_first_saved_columns = false %}
+    {% endif %}
+    {% if pk_col is not defined %}
+        {% set pk_col = 'id' %}
+    {% endif %}
+    {% if add_title is not defined %}
+        {% set add_title = 'Add'|trans({}, 'crud_table') %}
+    {% endif %}
+    {% if add_label is not defined %}
+        {% set add_label = add_title %}
+    {% endif %}
+    {% if view_title is not defined %}
+        {% set view_title = 'View'|trans({}, 'crud_table') %}
+    {% endif %}
+    {% if view_label is not defined %}
+        {% set view_label = view_title %}
+    {% endif %}
+    {% if edit_title is not defined %}
+        {% set edit_title = 'Edit'|trans({}, 'crud_table') %}
+    {% endif %}
+    {% if edit_label is not defined %}
+        {% set edit_label = edit_title %}
+    {% endif %}
+    {% if edit_popup_add is not defined %}
+        {% set edit_popup_add = false %}
+    {% endif %}
+    {% if list_update_url is not defined %}
+        {% set list_update_url = 'true' %}
+    {% endif %}
+    {% if no_filter_show is not defined %}
+        {% set no_filter_show = 'false' %}
+    {% endif %}
+    {% if delete_enable is not defined %}
+        {% set delete_enable = false %}
+    {% endif %}
+    {% if app.user and not delete_enable and not is_granted('ROLE_ADMIN') %}
+        {% set delete_route = null %}
+    {% endif %}
+    {% if col_params_show is not defined %}
+        {% set col_params_show = is_granted('ROLE_ADMIN') %}
+    {% endif %}
+    {% if grid_default_filter is not defined %}
+        {% set grid_default_filter = '' %}
+    {% endif %}
+    {% if grid_default_filter_save is not defined %}
+        {% set grid_default_filter_save = 'true' %}
+    {% endif %}
+    {% if grid_responsive is not defined %}
+        {% set grid_responsive = 'false' %}
+    {% endif %}
+    {% if grid_total_footer is not defined %}
+        {% set grid_total_footer = 'true' %}
+    {% endif %}
+    {% if grid_row_check is not defined %}
+        {% set grid_row_check = false %}
+    {% endif %}
+    {% if routing_default_params is not defined %}
+        {% set routing_default_params = '' %}
+    {% endif %}
+    {% if save_ordering_route is not defined %}
+        {% set save_ordering_route = '' %}
+    {% endif %}
+    {% if grid_url is not defined and paginate_route is defined %}
+        {% set grid_url = path(paginate_route) %}
+    {% endif %}
+    {% if grid_current_url is not defined %}
+        {% set grid_current_url = path(app.request.get('_route')) %}
+    {% endif %}
+    {% if grid_add_popup_add is not defined %}
+        {% set grid_add_popup_add = 'false' %}
+    {% endif %}
+    {% if perPageOpt is not defined %}
+        {% set perPageOpt = [] %}
+    {% endif %}
+    {% if delete_msg is not defined %}
+        {% set delete_msg = 'Are you sure you want to delete this item?'|trans({}, 'crud_table') %}
+    {% endif %}
+    {% if grid_is_per_page is not defined %}
+        {% set grid_is_per_page = true %}
+    {% endif %}
+    {% if grid_is_striped is not defined %}
+        {% set grid_is_striped = true %}
+    {% endif %}
+    {% set routes = [] %}
+    {% if view_route is defined and view_route %}
+      {% set routes = routes|merge([{
+        'route':view_route,
+        'title':view_title,
+        'label':view_label,
+        'popup':view_popup,
+        'popupadd':false,
+        'icon':'fas fa-eye',
+        'type':'view'
+      }]) %}
+    {% endif %}
+    {% if edit_route is defined and edit_route %}
+      {% set routes = routes|merge([{
+        'route':edit_route,
+        'title':edit_title,
+        'label':edit_label,
+        'popup':edit_popup,
+        'popupadd':edit_popup_add,
+        'icon':'fas fa-edit',
+        'type':'edit'
+      }]) %}
+    {% endif %}
+    {% if delete_route is defined and delete_route %}
+      {% set routes = routes|merge([{
+        'route':delete_route,
+        'title':'Delete'|trans({}, 'crud_table'),
+        'label':'Delete'|trans({}, 'crud_table'),
+        'popup':false,
+        'popupadd':false,
+        'icon':'fas fa-trash',
+        'type':'delete'
+      }]) %}
+    {% endif %}
+    <div class="pager-wrapper">
+        {% if render_filter %}
+        <div class="filters-wrapper">
+            {{ render(url(filter_route, {partial: true, grid_ref: grid_ref})) }}
+        </div>
+        {% endif %}
+        {% block grid_init_params %}
+        <v-grid id="{%- if list_id is defined -%}{{ list_id }}{%- else -%}{{ layout }}{%- endif -%}"
+                layout="{{ layout }}"
+                {% if routing_default_params %}
+                :routing-default-params="{{ routing_default_params|json_encode }}"
+                {% endif %}
+                saved-columns="{{ saved_columns|json_encode }}"
+                :enable-first-saved-columns="{{ enable_first_saved_columns ? 'true' : 'false' }}"
+                url="{{ grid_url }}"
+                empty-text="{{ 'Nothing found'|trans({}, 'crud_table') }}"
+                refresh-title="{{ 'Refresh'|trans({}, 'crud_table') }}"
+                switch-title="{{ 'Toggle'|trans({}, 'crud_table') }}"
+                print-title="{{ 'Print'|trans({}, 'crud_table') }}"
+                current-url="{{ grid_current_url }}"
+                :default-current-page="{{ page }}"
+                :default-per-page="{{ perPage }}"
+                {% if perPageOpt|length %}
+                :per-page-opt="{{ perPageOpt|json_encode }}"
+                {% endif %}
+                :update-url="{{ list_update_url }}"
+                :total-footer="{{ grid_total_footer }}"
+                operate-position="{%- if view_route or edit_route or delete_route -%}{% block grid_operate_position %}left{% endblock %}{%- else -%}none{%- endif -%}"
+                :operate-sticky="false"
+                :default-sort-desc="{{ sort_desc ? 'true' : 'false' }}"
+                :col-params="{{ col_params_show ? 'true' : 'false' }}"
+                col-params-route="{{ path('save_columns_data') }}"
+                col-params-route-del="{{ path('delete_columns_data') }}"
+                {% if save_ordering_route != '' %}
+                save-ordering-route="{{ path(save_ordering_route) }}"
+                {% endif %}
+                default-sort-by="{{ sort_by }}"
+                grid-ref="{{ grid_ref }}"
+                ref="{{ grid_ref }}"
+                default-filter="{{ grid_default_filter }}"
+                :default-filter-save="{{ grid_default_filter_save }}"
+                :no-filter-show="{{ no_filter_show }}"
+                :is-check="{{ grid_row_check ? 'true' : 'false' }}"
+                :is-per-page="{{ grid_is_per_page ? 'true' : 'false' }}"
+                inline-template style="display: none;">
+        {% endblock %}
+            <div :id="id" :class="{'d-none': isHide, 'grid-component': true}">
+
+            <!-- Additional controls -->
+            <b-row>
+              <b-col md="12" class="my-1">
+                <div class="my-1 float-left">
+                  {% block top_left_panel %}
+                    {% if add_route %}
+                    {% if add_link is not defined %}
+                      {% set add_link = path(add_route) %}
+                    {% endif %}
+                    <b-button-group>
+                        <b-button href="{{ add_link }}" ref="addNewButton" title="{% block add_button_title %}{{ add_label }}{% endblock %}"
+                        {% if add_popup -%}@click.stop.prevent="loadModal($event, {
+                          gridRef: '{{ grid_ref }}',
+                          add: {{ grid_add_popup_add }}
+                        })"{%- endif %}><i class="fas fa-plus"></i>&nbsp;{% block add_button_text %}{{ add_title }}{% endblock %}</b-button>
+                        {% block top_left_panel_buttons %}
+                        {% endblock %}
+                    </b-button-group>
+                    {% endif %}
+                  {% endblock %}
+                </div>
+                <div class="my-1 float-right grid-operations-right">
+                  {% block top_right_panel %}
+                  {% endblock %}
+                  <b-button-group>
+                    <b-button @click="refresh" :title="refreshTitle"><i class="fas fa-sync"></i></b-button>
+                    <b-button @click="toggleStacked" :title="switchTitle"><i class="fas fa-list-alt"></i></b-button>
+                    <b-button @click="print" :title="printTitle"><i class="fas fa-print"></i></b-button>
+                    <b-dropdown v-if="colParams" title="{{ 'Column settings'|trans({}, 'crud_table') }}" right class="p-0 field-params-toggle" ref="fieldParams">
+                    <b-dropdown-header>{{ 'Field options'|trans({}, 'crud_table') }}<b-button-close @click="closeFieldParams" class="field-params-close"></b-button-close></b-dropdown-header>
+                    <template slot="button-content">
+                      <i class="fas fa-list"></i>
+                    </template>
+                    <b-dropdown-form class="grid-operations-form-wrapper">
+                      <slick-list v-model="fields" lock-axis="y" class="list-group field-params-container pt-1" :use-drag-handle="true" :dragged-settling-duration="0">
+                        <slick-item v-if="field.fieldParams === undefined || field.fieldParams" v-for="(field, idx) in fields" :index="idx" :key="idx" class="modalmove">
+                          <b-card no-body class="mb-1">
+                            <b-card-header header-tag="header" class="p-1" role="tab">
+                              <b-button block variant="link"
+                                :class="field.showFieldParams ? 'collapsed' : null"
+                                :aria-expanded="field.showFieldParams ? 'true' : 'false'"
+                                :aria-controls="'accordion-'+idx"
+                                @click="field.showFieldParams = !field.showFieldParams"
+                                class="p-0 field-params-single-toggle text-dark"><span v-handle class="fas fa-bars field-params-handle-reorder"></span><i :class="{fa: true, 'fa-plus': !field.showFieldParams, 'fa-minus': field.showFieldParams, 'mr-2': true}"></i>{% verbatim %}{{ field.title }}{% endverbatim %}</b-button>
+                            </b-card-header>
+                            <b-collapse :id="'accordion-'+idx" accordion="field-params" v-model="field.showFieldParams">
+                              <b-card-body class="p-2">
+                                <b-card-text>
+                                  <b-form-group label="{{ 'Column name in header'|trans({}, 'crud_table') }}" :label-for="'dropdown-form-title-'+idx" class="mb-2">
+                                    <b-form-input
+                                      :id="'dropdown-form-title-'+idx"
+                                      size="sm"
+                                      v-model="field.label"
+                                    ></b-form-input>
+                                  </b-form-group>
+                                  <b-form-checkbox :checked="field.show" @input="changeShowColumn($event, field)">{{ 'Show column'|trans({}, 'crud_table') }}</b-form-checkbox>
+                                  <b-form-checkbox v-model="field.sortable">{{ 'Sort by column'|trans({}, 'crud_table') }}</b-form-checkbox>
+                                </b-card-text>
+                              </b-card-body>
+                            </b-collapse>
+                          </b-card>
+                        </slick-item>
+                      </slick-list>
+                      <div class="field-params-bottom">
+                        <b-button @click="delColumns" v-if="showDelColumns" title="{{ 'delete selected field settings'|trans({}, 'crud_table') }}"><i class="fas fa-trash"></i></b-button>
+                        <b-button @click="saveColumns" variant="primary" class="float-right" title="{{ 'save changes to field parameters'|trans({}, 'crud_table') }}">{{ 'Save changes'|trans({}, 'crud_table') }}</b-button>
+                      </div>
+                    </b-dropdown-form>
+                    </b-dropdown>
+                  </b-button-group>
+                </div>
+              </b-col>
+            </b-row>
+
+            {% if show_saved_columns %}
+            <div class="saved-columns-wrap col-12" v-if="colParams && !colParamsSingle && savedColumnsData && Object.keys(savedColumnsData).length">
+              <div class="row">
+                <fieldset class="form-group">
+                  <legend class="">{{ 'Saved columns'|trans({}, 'crud_table') }}</legend>
+                  <b-button type="button" class="mr-1" :pressed="savedColumnsData[index].enabled" v-for="(flt, index) in savedColumnsData" :key="index" variant="outline-success" @click="applySavedColumns(index)">{% verbatim %}{{ flt.title }}{% endverbatim %}</b-button>
+                </fieldset>
+              </div>
+            </div>
+            {% endif %}
+
+            <!-- Main table element -->
+            <b-table outlined
+                     {% if grid_is_striped %}
+                     striped
+                     {% endif %}
+                     show-empty
+                     ref="table"
+                     :responsive="{{ grid_responsive }}"
+                     :empty-text="emptyText"
+                     :busy.sync="isBusy"
+                     :stacked="isStacked"
+                     :items="itemsProvider"
+                     :fields="fields"
+                     :current-page="currentPage"
+                     :per-page="perPage"
+                     :sort-by.sync="sortBy"
+                     :sort-desc.sync="sortDesc"
+                     :foot-clone="showFooter"
+                     :no-sort-reset="true"
+                     :class="{stickyFirstColumn: operateSticky && operatePosition === 'left',
+                              stickyLastColumn: operateSticky && operatePosition === 'right',
+                              hasOperateFirst: operatePosition === 'left',
+                              hasOperateLast: operatePosition === 'right',
+                              tableGrid: true}"
+                     {% if grid_row_check %}
+                     @row-selected="onRowSelected"
+                     selectable
+                     no-select-on-click
+                     {% endif %}
+            >
+              <div slot="table-busy" class="text-center text-danger my-2">
+                <b-spinner class="align-middle"></b-spinner>
+                <strong>{{ 'Loading...'|trans({}, 'crud_table') }}</strong>
+              </div>
+              <!-- create slot for each cell for header -->
+              <template v-for="field in fields" :slot="'head('+field.key+')'" slot-scope="data">
+                <div v-if="field.key === 'gridCheck'">
+                  <b-form-checkbox :checked="selectedAll" @change="toggleSelectRowAll" :indeterminate="selectedAllIndeterminate"></b-form-checkbox>
+                </div>
+                <div v-else v-html="data.label"></div>
+              </template>
+              <!-- create slot for each cell for footer -->
+              <template v-if="showFooter" v-for="field in fields" :slot="'foot('+field.key+')'" slot-scope="data">
+                <div v-html="data.field.footer"></div>
+              </template>
+              <!-- create slot for each cell -->
+              <template v-for="field in fields" :slot="'cell('+field.key+')'" slot-scope="row">
+                <template v-if="field.valueformat">
+                  <!-- create component for each formatted cell -->
+                  <component :is="gridRef+'-v-grid-'+field.key+'-'+row.index"></component>
+                </template>
+                <template v-else>{% verbatim %}
+                  {{ row.item[field.key] }}
+                {% endverbatim %}</template>
+              </template>
+              <template slot="cell(gridSortable)" slot-scope="row">
+                <i class="fas fa-bars handle-sortable"></i>
+              </template>
+              {% block check_content_wrap %}
+              <template slot="cell(gridCheck)" slot-scope="row">
+                <b-form-checkbox :checked="row.rowSelected" @change="toggleSelectRow(row)"></b-form-checkbox>
+              </template>
+              {% endblock %}
+              {% block operate_content_wrap %}
+              <template slot="cell(gridOperate)" slot-scope="data">
+                {% block operate_content_data %}
+                {% if routes|length > 1 %}
+                  {% for r in routes %}
+                    {% if loop.index == 1 %}
+                <b-dropdown right split lazy size="sm" title="{{ r.label }}"
+                    :split-href="generateRoute('{{ r.route }}', {id: data.item.{{ pk_col }}})"
+                    {% if r.popup -%}@click.stop.prevent="loadModal($event, {
+                      gridRef: '{{ grid_ref }}',
+                      add: {{ r.popupadd ? 'true' : 'false' }}
+                    })"{%- endif %}>
+                  <template slot="button-content">
+                    <i class="{{ r.icon }}"></i>&nbsp;{{ r.title }}
+                  </template>
+                    {% else %}
+                      {% if r.type == 'delete' %}
+                        {% block delete_button_content %}
+                          <b-dropdown-item-button title="{{ r.label }}"
+                            @click.stop.prevent="loadConfirm($event, {
+                              link: generateRoute('{{ r.route }}', {id: data.item.{{ pk_col }}}),
+                              method: 'DELETE',
+                              title: '{{ 'Deleting'|trans({}, 'crud_table') }}',
+                              okVariant: 'danger',
+                              okTitle: 'Да',
+                              cancelTitle: 'Нет',
+                              centered: true,
+                              bodyText: '{{ delete_msg }}',
+                              gridRef: '{{ grid_ref }}'
+                            })">
+                            <i class="fas fa-trash"></i>&nbsp;{{ r.title }}</b-dropdown-item-button>
+                        {% endblock %}
+                      {% else %}
+                        <b-dropdown-item title="{{ r.label }}"
+                          :href="generateRoute('{{ r.route }}', {id: data.item.{{ pk_col }}})"
+                          {% if r.popup -%}@click.stop.prevent="loadModal($event, {
+                            gridRef: '{{ grid_ref }}',
+                            add: {{ r.popupadd ? 'true' : 'false' }}
+                          })"{%- endif %}>
+                          {% if r.type == 'view' %}
+                            {% block view_dropdown_text %}
+                              <i class="{{ r.icon }}"></i>&nbsp;{{ r.title }}
+                            {% endblock %}
+                          {% elseif r.type == 'edit' %}
+                            {% block edit_dropdown_text %}
+                              <i class="{{ r.icon }}"></i>&nbsp;{{ r.title }}
+                            {% endblock %}
+                          {% else %}
+                            <i class="{{ r.icon }}"></i>&nbsp;{{ r.title }}
+                          {% endif %}
+                        </b-dropdown-item>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                </b-dropdown>
+                {% elseif routes|length == 1 %}
+                  {% block operate_content %}
+                      {% if routes|first.type == 'delete' %}
+                          <b-button size="sm" title="{{ routes|first.label }}"
+                            @click.stop.prevent="loadConfirm($event, {
+                              link: generateRoute('{{ routes|first.route }}', {id: data.item.{{ pk_col }}}),
+                              method: 'DELETE',
+                              title: '{{ 'Deleting'|trans({}, 'crud_table') }}',
+                              okVariant: 'danger',
+                              okTitle: 'Да',
+                              cancelTitle: 'Нет',
+                              centered: true,
+                              bodyText: '{{ delete_msg }}',
+                              gridRef: '{{ grid_ref }}'
+                            })">
+                            <i class="fas fa-trash"></i>&nbsp;{{ routes|first.title }}</b-button>
+                      {% else %}
+                  <b-button size="sm" title="{{ routes|first.label }}"
+                    :href="generateRoute('{{ routes|first.route }}', {id: data.item.{{ pk_col }}})"
+                    {% if routes|first.popup -%}@click.stop.prevent="loadModal($event, {
+                      gridRef: '{{ grid_ref }}',
+                      add: {{ routes|first.popupadd ? 'true' : 'false' }}
+                    })"{%- endif %}>
+                    {% block operate_button_text %}
+                    <i class="{{ routes|first.icon }}"></i>&nbsp;{{ routes|first.title }}
+                    {% endblock %}
+                  </b-button>
+                      {% endif %}
+                  {% endblock %}
+                {% endif %}
+                {% block extra_buttons_content %}
+                {% endblock %}
+                {% endblock %}
+              </template>
+              {% endblock %}
+            </b-table>
+
+            <!-- User Interface controls -->
+            <b-row v-if="totalRows" :class="{'grid-pages': totalFooter}">
+              <b-col md="12" class="my-1">
+                <div class="my-1 float-left">
+                  <b-input-group>
+                    <b-input-group-prepend is-text>
+                        {% set pageFrom %}
+                            {% verbatim %}{{ pageFrom }}{% endverbatim %}
+                        {% endset %}
+                        {% set pageTo %}
+                            {% verbatim %}{{ pageTo }}{% endverbatim %}
+                        {% endset %}
+                        {% set totalRows %}
+                            {% verbatim %}{{ totalRows }}{% endverbatim %}
+                        {% endset %}
+                        {{ 'Show from %pageFrom% to %pageTo% rows from %totalRows% total'|trans({
+                            '%pageFrom%': pageFrom,
+                            '%pageTo%': pageTo,
+                            '%totalRows%': totalRows
+                        }, 'crud_table') }}
+                    </b-input-group-prepend>
+                    <b-form-select v-if="isPerPage" :options="pageOptions" v-model="perPage" @change="switchPerPage"></b-form-select>
+                    <b-input-group-append v-else is-text>{{ perPage }}</b-input-group-append>
+                    <b-input-group-append is-text>{{ 'on page'|trans({}, 'crud_table') }}</b-input-group-append>
+                  </b-input-group>
+                </div>
+                <div class="my-1 float-right">
+                  <b-pagination align="right" v-if="perPage" :total-rows="totalRows" :per-page="perPage" @change="switchCurrentPage" v-model="currentPage" class="my-0" hide-goto-end-buttons :limit="4" first-number last-number></b-pagination>
+                </div>
+              </b-col>
+            </b-row>
+            <b-modal
+              ref="modal"
+              title="{{ 'Enter the title'|trans({}, 'crud_table') }}"
+              ok-title="{{ 'Save'|trans({}, 'crud_table') }}"
+              cancel-title="{{ 'Close'|trans({}, 'crud_table') }}"
+              @show="resetModal"
+              @hidden="resetModal"
+              @ok="handleOk"
+              centered
+            >
+              <form ref="form" @submit.stop.prevent="handleSubmit">
+                <b-form-group
+                  :state="nameState"
+                  label="{{ 'Title'|trans({}, 'crud_table') }}"
+                  label-for="name-input"
+                  invalid-feedback="{{ 'Title cannot be empty'|trans({}, 'crud_table') }}"
+                >
+                  <b-form-input
+                    id="name-input"
+                    v-model="name"
+                    :state="nameState"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+              </form>
+            </b-modal>
+          </div>
+        </v-grid>
+    </div>
+{% endblock %}

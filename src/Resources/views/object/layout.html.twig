@@ -1,0 +1,30 @@
+{% set render_partial = false %}
+{% if crud_template_prefix is not defined %}
+  {% set crud_template_prefix = '' %}
+{% endif %}
+{% if app.request.xmlHttpRequest or app.request.get('partial') %}
+    {% set render_partial = true %}
+{% endif %}
+{% extends render_partial ? crud_template_prefix ~ 'base-partial.html.twig' : crud_template_prefix ~ 'base-app.html.twig' %}
+
+{% block title %}
+    {%- if title is defined and title -%}
+        {{- parent() ~ ' — ' ~ title -}}
+    {% else %}
+        {{- parent() -}}
+    {% endif %}
+{% endblock %}
+
+{% block bodycontent %}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            {% include '@CRUD/components/alert.html.twig' with {'mode': label, 'message': message} %}
+        {% endfor %}
+    {% endfor %}
+
+    {% block heading %}
+        <h1 ref="modalTitle">{% block heading_title %}{{ title|default('') }}{% endblock %}</h1>
+    {% endblock %}
+
+    {% block content %}{% endblock %}
+{% endblock %}

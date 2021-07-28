@@ -1,0 +1,7 @@
+{% extends '@CRUD/object/layout.html.twig' %}
+
+{% form_theme form '@CRUD/form/bootstrap_4_layout_readonly.html.twig' %}
+
+{% block content %}
+  {{ form(form) }}
+{% endblock %}

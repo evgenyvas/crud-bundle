@@ -1,0 +1,271 @@
+{% use "bootstrap_4_layout.html.twig" %}
+
+{# Widgets #}
+
+{% block datetime_widget -%}
+    {%- if widget == 'single_text' -%}
+        {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim, autocomplete: 'off'}) -%}
+        <v-datetime-picker id="{{ id }}"{{ block('attributes') }} data-value="{{ value }}" v-model="form.{{ id }}" :config="{dateFormat: datetimeFormat+'{% if attr.step is defined and attr.step == '1' %}:s{% endif %}', static:true, locale: dateTimeLang.{{ app.request.locale }}, enableTime: true, time_24hr: true, defaultHour: 0{% if disabled %},allowInput: false, clickOpens: false{% else %}, allowInput: true{% endif %}}" ref="{{ id }}" data-is_datetime="1"></v-datetime-picker>
+        <input type="hidden" id="{{ id }}_value" name="{{ full_name }}"/>
+    {%- else -%}
+        {{- parent() -}}
+    {%- endif -%}
+{%- endblock datetime_widget %}
+
+{% block date_widget -%}
+    {%- if widget == 'single_text' -%}
+        {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim, autocomplete: 'off'}) -%}
+        <v-datetime-picker id="{{ id }}"{{ block('attributes') }} data-value="{{ value }}" v-model="form.{{ id }}" :config="{dateFormat: dateFormat, static:true, locale: dateTimeLang.{{ app.request.locale }}{% if disabled %}, allowInput: false, clickOpens: false{% else %}, allowInput: true{% endif %}}" ref="{{ id }}" data-is_datetime="0"></v-datetime-picker>
+        <input type="hidden" id="{{ id }}_value" name="{{ full_name }}"/>
+    {%- else -%}
+        {{- parent() -}}
+    {%- endif -%}
+{%- endblock date_widget %}
+
+{% block time_widget -%}
+    {%- if widget == 'single_text' -%}
+        {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim, autocomplete: 'off'}) -%}
+        {% if disabled %}
+          <v-datetime-picker {{ block('widget_attributes') }} value="{{ value }}" :config="{dateFormat: 'H:i', static:true, enableTime: true, noCalendar: true, time_24hr: true, allowInput: false, clickOpens: false}"></v-datetime-picker>
+        {% else %}
+          <v-datetime-picker {{ block('widget_attributes') }} value="{{ value }}" :config="{dateFormat: 'H:i', static:true, enableTime: true, noCalendar: true, time_24hr: true, allowInput: true, onOpen: timePickerOpen}"></v-datetime-picker>
+        {% endif %}
+    {%- else -%}
+        {{- parent() -}}
+    {%- endif -%}
+{%- endblock time_widget %}
+
+{% block entityhidden_widget -%}
+    <input type="hidden" name="{{ full_name }}" value="{{ value.id }}"/>
+{%- endblock entityhidden_widget %}
+
+{% block colour_widget -%}
+    <swatches-picker v-model="form.{{ id }}"{% if colours %} :palette="{{ colours }}" {% endif %}{% if value %} data-value="{% apply escape('html_attr') %}{{ value|unescape|raw }}{% endapply %}"{% endif %} ref="{{ id }}"></swatches-picker>
+    <input type="hidden" name="{{ full_name }}" ref="{{ id }}_value" value="{% if value %}{% apply escape('html_attr') %}{{ value|unescape|raw }}{% endapply %}{% endif %}"/>
+{%- endblock colour_widget %}
+
+{% block selectautocomplete_widget -%}
+    <v-select id="{{ id }}"{{ block('attributes') }} :options="configs.{{ id }}.options" :filterable="false" v-model="form.{{ id }}" data-value="{{ init_data|json_encode }}" ref="{{ id }}" @search="onSearch('{{ id }}', '{{ route }}', ...arguments)">
+      <template v-slot:no-options>{% trans from 'crud_form' %}no suitable options{% endtrans %}</template>
+    </v-select>
+    <input type="hidden" name="{{ full_name }}" ref="{{ id }}_value" value="{% if init_data.value is defined %}{{ init_data.value }}{% endif %}"/>
+{%- endblock selectautocomplete_widget %}
+
+{% block multiselectautocomplete_widget -%}
+    <v-select id="{{ id }}"{{ block('attributes') }} :options="{% if opt_init is defined and opt_init %}{{ opt_init }}{% else %}configs.{{ id }}.options{% endif %}" :filterable="false" :multiple="true" v-model="form.{{ id }}" data-value="{{ init_data|json_encode }}" ref="{{ id }}"{% if route is defined and route %} @search="onSearch('{{ id }}', '{{ route }}', ...arguments)"{% endif %}>
+      <template v-slot:no-options>{% trans from 'crud_form' %}no suitable options{% endtrans %}</template>
+    </v-select>
+    <input type="hidden" name="{{ full_name }}" ref="{{ id }}_value" value="{{ init_data_val }}"/>
+{%- endblock multiselectautocomplete_widget %}
+
+{% block textarea_widget -%}
+    {% if attr['v-pre'] is defined and attr['v-pre'] == 'false' %}
+      {% set attr = attr|filter((v, k) => k != 'v-pre') %}
+    {% else %}
+      {% set attr = attr|merge({'v-pre': ''}) %}
+    {% endif %}
+    {{- parent() -}}
+{%- endblock textarea_widget %}
+
+{% block subformlist_widget -%}
+  <table class="table table-sm subform-wrapper" data-prototype="{{ form_widget(form.vars.prototype)|base64_encode }}" data-index="{{ form|length }}">
+    <thead>
+      <tr>
+        {%- for key, col_label in labels %}
+          <th>
+              {{- col_label -}}
+              {% set help_id = form.vars.id ~ names[key] ~ '_help' %}
+              {% set help = names[key] %}
+              {% set help_title = col_label %}
+              {{ block('form_help_widget') }}
+          </th>
+        {% endfor -%}
+          <th></th>
+      </tr>
+    </thead>
+    <tbody>
+  {% for subform in form %}
+    {{ form_widget(subform) }}
+  {% endfor %}
+    <tr class="add-subform-wrap"><td colspan="{{ labels|length + 1 }}"><b-button size="sm" class="float-right" @click="addSubform('{{ id }}')"><i class="fas fa-plus"></i>&nbsp;{% trans from 'crud_form' %}add{% endtrans %}</b-button></td></tr>
+    </tbody>
+  </table>
+{%- endblock subformlist_widget %}
+
+{% block subformlistsingle_widget -%}
+  <tr id="{{ id }}">
+  {% for field in form %}
+    <td>{{- form_widget(field) -}}</td>
+  {% endfor %}
+    <td><button type="button" aria-label="Close" class="close" onclick="var sub = getElementById('{{ id }}'); sub.parentNode.removeChild(sub)">×</button></td>
+  </tr>
+{%- endblock subformlistsingle_widget %}
+
+{% block subformadd_widget -%}
+  <table id="{{ id~'_sub' }}" class="table table-sm subform-wrapper" data-prototype="{{ form_widget(form.vars.prototype)|base64_encode }}" data-index="{{ max_index }}" {% if hide_empty_table %} data-hide-empty-table="1"{% if form|length == 0 %} style="display: none;"{% endif %}{% endif %}>
+    <thead>
+      <tr>
+        {%- for key, col_label in labels %}
+          <th{% if col_label == '' %} class="d-none"{% endif %}>
+              {{- col_label -}}
+          </th>
+        {% endfor -%}
+          <th></th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {% for subform in form %}
+        {{ form_widget(subform) }}
+      {% endfor %}
+    <template v-for="(sf, idx) in subform.{{ id~'_sub' }}">
+      <component :is="sf" :key="idx"></component>
+    </template>
+    </tbody>
+  </table>
+  <b-button size="sm" class="add-subform-button float-right" @click="addSubform('{{ id~'_sub' }}')"><i class="fa fa-plus"></i>&nbsp;{{ add_button_title }}</b-button>
+{%- endblock subformadd_widget %}
+
+{% block subformsingleadd_widget -%}
+  <tr id="{{ id }}" class="subform-single">
+  {% for field in form %}
+    <td{% if field.vars.attr.class is defined %} class="{{ field.vars.attr.class }}"{% endif %}>{{- form_widget(field) -}}</td>
+  {% endfor %}
+    {#<td><button type="button" aria-label="Close" class="close" @click="delSubform('{{ id }}')">×</button></td>#}
+    <td><button type="button" aria-label="Close" class="close" onclick="var sub = getElementById('{{ id }}'); sub.parentNode.removeChild(sub)">×</button></td>
+  </tr>
+{%- endblock subformsingleadd_widget %}
+
+{# Misc #}
+
+{% block form_label %}
+    {% set newlabel = parent() %}
+    {{ newlabel|unescape|raw }}
+    {{ form_help(form) }}
+{% endblock %}
+
+{% block form_help -%}
+    {% set help_id = form.vars.id ~ '_help' %}
+    {% set help_title = label %}
+    {%- if help is not empty -%}
+      {{ block('form_help_widget') }}
+    {%- endif -%}
+{%- endblock form_help %}
+
+{% block form_help_widget -%}
+    <b-button id="{{ help_id }}" variant="link" class="label-help-toggle"><i class="fas fa-question-circle"></i></b-button>
+    <b-popover target="{{ help_id }}" triggers="click blur" placement="bottomright" class="d-none">
+        {#{%- if help_title is defined and help_title is not empty -%}#}
+            {#<template slot="title">{{ help_title }}</template>#}
+        {#{%- endif -%}#}
+        {{- help|raw -}}
+    </b-popover>
+{%- endblock form_help_widget %}
+
+{%- block form_start -%}
+    {%- do form.setMethodRendered() -%}
+    {% set method = method|upper %}
+    {%- if method in ["GET", "POST"] -%}
+        {% set form_method = method %}
+    {%- else -%}
+        {% set form_method = "POST" %}
+    {%- endif -%}
+    {% if form_component is not defined %}
+      {% set form_component = 'form-init' %}
+    {% endif %}
+    {% if id_prefix is not defined %}
+      {% set id_prefix = random(50, 100) %}
+    {% endif %}
+    <{{ form_component }} method="{{ method }}"{% if action != '' %} formname="{{ name }}" id-prefix="{{ id_prefix }}" action="{{ action }}"{% endif %}{%- if grid_ref is defined and grid_ref -%} grid-ref="{{ grid_ref }}"{% endif %}{% if success_notify is defined and success_notify %} success-notify="{{ success_notify }}"{% endif %}{% if success_close is defined %} :success-close="{{ success_close ? 'true' : 'false' }}"{% endif %}{% if fields is defined %} fields="{{ fields|json_encode }}"{% endif %}{%- if newtab is defined and newtab -%} :newtab="true"{% endif %}
+    {% if form_props is defined %}
+        {%- for propname, propvalue in form_props -%}
+            {{- " " -}}
+            {{- propname }}="{{ propvalue }}"
+        {%- endfor -%}
+    {% endif %}
+    {% if date_format is not defined %}
+      {% set date_format = 'Y-m-d' %}
+    {% endif %}
+    {% if datetime_format is not defined %}
+      {% set datetime_format = 'Y-m-d H:i' %}
+    {% endif %}
+    date-format="{{ date_format }}" datetime-format="{{ datetime_format }}"
+    inline-template><div class="form-content">
+    {%- set attr = attr|merge({ref: id_prefix ~ 'form', '@submit': 'onSubmit'}) -%}
+    {% if newtab is defined and newtab %}
+      {%- set attr = attr|merge({target: '_blank'}) -%}
+    {% endif %}
+    <form id="{{ id }}"{% if name != '' %} name="{{ name }}"{% endif %} method="{{ form_method|lower }}"{% if action != '' %} action="{{ action }}"{% endif %}{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
+    {%- if form_method != method -%}
+        <input type="hidden" name="_method" value="{{ method }}" />
+    {%- endif -%}
+{%- endblock form_start -%}
+
+{%- block form_end -%}
+    {% if form_component is not defined %}
+      {% set form_component = 'form-init' %}
+    {% endif %}
+    {%- if not render_rest is defined or render_rest -%}
+        {{ form_rest(form) }}
+    {%- endif -%}
+    </form>
+    </div></{{ form_component }}>
+{%- endblock form_end -%}
+
+{# Rows #}
+
+{%- block form_widget_compound -%}
+    {%- if form is rootform -%}
+        {{ form_errors(form) }}
+    {%- endif -%}
+    {{- block('form_rows') -}}
+    {{- form_rest(form) -}}
+{%- endblock form_widget_compound -%}
+
+{%- block form_rows -%}
+    {% for child in form|filter(child => not child.rendered) %}
+        {% if child.vars.attr.ref is defined %}
+            {% set attr = child.vars.attr|merge({ref: form.vars.id_prefix ~ child.vars.attr.ref}) -%}
+            {{- form_row(child, { 'attr': attr }) -}}
+        {% else %}
+            {{- form_row(child) -}}
+        {% endif %}
+    {% endfor %}
+{%- endblock form_rows -%}
+
+{% block form_row -%}
+    {%- if compound is defined and compound -%}
+        {%- set element = 'fieldset' -%}
+    {%- endif -%}
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    {%- if compound is defined and compound -%}
+      {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-group')|trim}) -%}
+      <{{ element|default('div') }}{% if compound is defined and compound %} {{ block('widget_container_attributes') }}{% endif %}>
+    {%- else -%}
+      <{{ element|default('div') }} class="form-group">
+    {%- endif -%}
+        {{- form_label(form) -}}
+        {{- form_widget(form, widget_attr) -}}
+    </{{ element|default('div') }}>
+{%- endblock form_row %}
+
+{% block file_widget -%}
+    {%- if form.vars.data.filename is defined and form.vars.data.filename -%}
+    <div class="image-edit image">
+      <img src="{{ form.vars.data|image_base64 }}">
+    </div>
+    {%- endif -%}
+    <{{ element|default('div') }} class="custom-file">
+        {%- set type = type|default('file') -%}
+        {{- block('form_widget_simple') -}}
+        {%- set label_attr = label_attr|merge({ class: (label_attr.class|default('') ~ ' custom-file-label')|trim }) -%}
+        <label for="{{ form.vars.id }}" {% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}>
+            {%- if attr.placeholder is defined -%}
+                {{- translation_domain is same as(false) ? attr.placeholder : attr.placeholder|trans({}, translation_domain) -}}
+            {%- endif -%}
+        </label>
+    </{{ element|default('div') }}>
+{% endblock %}

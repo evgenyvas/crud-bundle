@@ -1,0 +1,538 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Fields &mdash; crud-bundle 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Form" href="form.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> crud-bundle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="list.html">List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="form.html">Form</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Fields</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#text">text</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#textarea">textarea</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#password">password</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#radio">radio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#boolean">boolean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#email">email</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#file">file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#select">select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#entity">entity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multichoice-entity">multichoice entity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#selectautocomplete">selectautocomplete</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multiselectautocomplete">multiselectautocomplete</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#colour">colour</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#date">date</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#daterange">daterange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datetime">datetime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datetimesec">datetimesec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#time">time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#subform-entity">subform entity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#joinfield">joinfield</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">crud-bundle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Documentation</a> &raquo;</li>
+        
+      <li>Fields</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/usage/fields.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="fields">
+<span id="index-0"></span><h1>Fields<a class="headerlink" href="#fields" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="text">
+<h2>text<a class="headerlink" href="#text" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;required&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;required&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sort&#39;</span> <span class="o">=&gt;</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s1">&#39;show_list&#39;</span> <span class="o">=&gt;</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s1">&#39;show_add&#39;</span> <span class="o">=&gt;</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s1">&#39;show_edit&#39;</span> <span class="o">=&gt;</span> <span class="n">true</span><span class="p">,</span>
+<span class="p">],</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="textarea">
+<h2>textarea<a class="headerlink" href="#textarea" title="Permalink to this headline">¶</a></h2>
+<p>only in form</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;textarea&#39;</span><span class="p">,</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="password">
+<h2>password<a class="headerlink" href="#password" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Password&#39;</span><span class="p">,</span>
+<span class="s1">&#39;repeat_label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Confirm password&#39;</span><span class="p">,</span>
+<span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>also for encode password add to controller:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>public function beforeSave($obj, $request, $formData) {
+    if ($formData-&gt;getPassword()) {
+        // password encode
+        $obj-&gt;setPassword($this-&gt;passwordHasher-&gt;hashPassword($obj, $formData-&gt;getPassword()));
+    }
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="radio">
+<h2>radio<a class="headerlink" href="#radio" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;radio&#39;</span><span class="p">,</span>
+<span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">&#39;Test Value&#39;</span><span class="o">=&gt;</span><span class="s1">&#39;val1&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Another text&#39;</span><span class="o">=&gt;</span><span class="s1">&#39;text&#39;</span><span class="p">,</span>
+<span class="p">],</span>
+</pre></div>
+</div>
+<p>set default value</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;widget_params&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">&#39;data&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;val1&#39;</span>
+<span class="p">],</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="boolean">
+<h2>boolean<a class="headerlink" href="#boolean" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;boolean&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;radio&#39;</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>you can set your own values</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;boolean&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;radio&#39;</span><span class="p">,</span>
+<span class="s1">&#39;yes_val&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;ok&#39;</span><span class="p">,</span>
+<span class="s1">&#39;no_val&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;not&#39;</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>or show only checkbox</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;boolean&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;checkbox&#39;</span><span class="p">,</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="email">
+<h2>email<a class="headerlink" href="#email" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="file">
+<h2>file<a class="headerlink" href="#file" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;file&#39;</span><span class="p">,</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="select">
+<h2>select<a class="headerlink" href="#select" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;select&#39;</span><span class="p">,</span>
+<span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">&#39;Test Value&#39;</span><span class="o">=&gt;</span><span class="s1">&#39;val1&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Another text&#39;</span><span class="o">=&gt;</span><span class="s1">&#39;text&#39;</span><span class="p">,</span>
+<span class="p">],</span>
+<span class="s1">&#39;widget_params&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">&#39;placeholder&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;empty_data&#39;</span>  <span class="o">=&gt;</span> <span class="n">null</span><span class="p">,</span>
+<span class="p">],</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="entity">
+<h2>entity<a class="headerlink" href="#entity" title="Permalink to this headline">¶</a></h2>
+<p>generate select with automatically loaded choices</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;entity&#39;</span><span class="p">,</span>
+<span class="s1">&#39;label_field&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span>
+<span class="s1">&#39;data_full&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span>
+<span class="p">],</span>
+<span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;App\Entity\UserType&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;select&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget_params&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">&#39;placeholder&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;empty_data&#39;</span>  <span class="o">=&gt;</span> <span class="n">null</span><span class="p">,</span>
+    <span class="s1">&#39;choice_label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span>
+<span class="p">],</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="multichoice-entity">
+<h2>multichoice entity<a class="headerlink" href="#multichoice-entity" title="Permalink to this headline">¶</a></h2>
+<p>list of checkboxes</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;multichoice&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget_params&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">&#39;expanded&#39;</span> <span class="o">=&gt;</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">&#39;Test Value&#39;</span><span class="o">=&gt;</span><span class="s1">&#39;val1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Another text&#39;</span><span class="o">=&gt;</span><span class="s1">&#39;text&#39;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</pre></div>
+</div>
+<p>or multiline select</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;expanded&#39;</span> <span class="o">=&gt;</span> <span class="n">false</span><span class="p">,</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="selectautocomplete">
+<h2>selectautocomplete<a class="headerlink" href="#selectautocomplete" title="Permalink to this headline">¶</a></h2>
+<p>load options dynamically while typing</p>
+<p>you must specify route for loading options</p>
+<p>for example, list of user logins:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;entity&#39;</span><span class="p">,</span>
+<span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;App\Entity\User&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;selectautocomplete&#39;</span><span class="p">,</span>
+<span class="s1">&#39;label_field&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;login&#39;</span><span class="p">,</span>
+<span class="s1">&#39;route&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;get_user_autocomplete&#39;</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>and add route:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">get_user_autocomplete</span><span class="p">:</span>
+    <span class="n">path</span><span class="p">:</span> <span class="o">/</span><span class="n">get_user_autocomplete</span>
+    <span class="n">controller</span><span class="p">:</span> <span class="n">Ecode</span>\<span class="n">CRUDBundle</span>\<span class="n">Controller</span>\<span class="n">AutocompleteController</span><span class="p">::</span><span class="n">getAutocompleteData</span>
+    <span class="n">options</span><span class="p">:</span>
+      <span class="n">expose</span><span class="p">:</span> <span class="n">true</span>
+    <span class="n">defaults</span><span class="p">:</span>
+      <span class="n">res</span><span class="p">:</span> <span class="n">true</span>
+      <span class="n">entity</span><span class="p">:</span> <span class="n">App</span>\<span class="n">Entity</span>\<span class="n">User</span>
+      <span class="n">search</span><span class="p">:</span> <span class="p">[</span><span class="n">login</span><span class="p">]</span>
+      <span class="n">title</span><span class="p">:</span> <span class="n">login</span>
+      <span class="n">value</span><span class="p">:</span> <span class="nb">id</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="multiselectautocomplete">
+<h2>multiselectautocomplete<a class="headerlink" href="#multiselectautocomplete" title="Permalink to this headline">¶</a></h2>
+<p>same as selectautocomplete, but can change many values</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;multiselectautocomplete&#39;</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>instead of route you can set optional query builder</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&#39;opt_query_builder&#39; =&gt; function (EntityRepository $er) {
+    return $er-&gt;createQueryBuilder(&#39;e&#39;)
+        -&gt;select(&#39;e.id, e.description&#39;)
+        -&gt;where(&quot;e.login IN(&#39;userlogin&#39;,&#39;test&#39;)&quot;);
+},
+</pre></div>
+</div>
+</div>
+<div class="section" id="colour">
+<h2>colour<a class="headerlink" href="#colour" title="Permalink to this headline">¶</a></h2>
+<p>colour selector</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;colour&#39;</span><span class="p">,</span>
+<span class="s1">&#39;colours&#39;</span> <span class="o">=&gt;</span> <span class="n">json_encode</span><span class="p">([[</span><span class="s1">&#39;#0000ff&#39;</span><span class="p">,</span><span class="s1">&#39;#ff0000&#39;</span><span class="p">]]),</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="date">
+<h2>date<a class="headerlink" href="#date" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="daterange">
+<h2>daterange<a class="headerlink" href="#daterange" title="Permalink to this headline">¶</a></h2>
+<p>only for filter</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;daterange&#39;</span><span class="p">,</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="datetime">
+<h2>datetime<a class="headerlink" href="#datetime" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;datetime&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;datetime&#39;</span><span class="p">,</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="datetimesec">
+<h2>datetimesec<a class="headerlink" href="#datetimesec" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;datetimesec&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;datetimesec&#39;</span><span class="p">,</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="time">
+<h2>time<a class="headerlink" href="#time" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="subform-entity">
+<h2>subform entity<a class="headerlink" href="#subform-entity" title="Permalink to this headline">¶</a></h2>
+<p>subform with dynamically add</p>
+<p>data class is required</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;subform_labels&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">&#39;id&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;humanSurname&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Surname&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;humanName&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;humanPatronymic&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Patronymic&#39;</span><span class="p">,</span>
+<span class="p">],</span>
+<span class="s1">&#39;prototype_data&#39;</span> <span class="o">=&gt;</span> <span class="n">new</span> \<span class="n">App</span>\<span class="n">Data</span>\<span class="n">PassHumanData</span><span class="p">(</span><span class="n">null</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">null</span><span class="p">,</span> <span class="n">null</span><span class="p">,</span> <span class="n">null</span><span class="p">,</span> <span class="n">false</span><span class="p">),</span>
+<span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;entity&#39;</span><span class="p">,</span>
+<span class="s1">&#39;data_full&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;humanSurname&#39;</span><span class="p">,</span> <span class="s1">&#39;humanName&#39;</span><span class="p">,</span> <span class="s1">&#39;humanPatronymic&#39;</span><span class="p">,</span>
+<span class="p">],</span>
+<span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;App\Entity\PassHuman&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;subformadd&#39;</span><span class="p">,</span>
+<span class="s1">&#39;route&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;get_human_autocomplete_select&#39;</span><span class="p">,</span>
+<span class="s1">&#39;filter_widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;selectautocomplete&#39;</span><span class="p">,</span>
+<span class="s1">&#39;filter_field&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;passCarHuman&#39;</span><span class="p">,</span>
+<span class="s1">&#39;entry_type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;App\Form\CarPassengerTypeSingleAdd&#39;</span><span class="p">,</span>
+<span class="s1">&#39;att_settings&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">&#39;id&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;search&#39;</span> <span class="o">=&gt;</span> <span class="n">false</span><span class="p">,</span>
+        <span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;hidden&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;widget_params&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">&#39;attr&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                <span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;d-none&#39;</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+    <span class="s1">&#39;humanSurname&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Surname&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s1">&#39;humanName&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s1">&#39;humanPatronymic&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Patronymic&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+<span class="s1">&#39;valueformat&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;list&#39;</span><span class="p">,</span>
+<span class="s1">&#39;hide_empty_table&#39;</span> <span class="o">=&gt;</span> <span class="n">true</span><span class="p">,</span>
+<span class="s1">&#39;add_button_title&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Add human&#39;</span><span class="p">,</span>
+<span class="s1">&#39;format_fields&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">&#39;humanSurname&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;humanName&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;humanPatronymic&#39;</span><span class="p">,</span>
+<span class="p">],</span>
+<span class="s1">&#39;format_params&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">&#39;delimiter_field&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39; &#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_label&#39;</span> <span class="o">=&gt;</span> <span class="n">false</span><span class="p">,</span>
+<span class="p">],</span>
+<span class="s1">&#39;show_list&#39;</span><span class="o">=&gt;</span><span class="n">true</span><span class="p">,</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="joinfield">
+<h2>joinfield<a class="headerlink" href="#joinfield" title="Permalink to this headline">¶</a></h2>
+<p>load field from join entity</p>
+<p><cite>join_field</cite> - key of join entity</p>
+<p>in array <cite>join_field_data</cite> set which fields load from join entity</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;joinfield&#39;</span><span class="p">,</span>
+<span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span>
+<span class="s1">&#39;join_field&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span>
+<span class="s1">&#39;join_field_data&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="p">[</span><span class="s1">&#39;field&#39;</span><span class="o">=&gt;</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
+<span class="p">],</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="form.html" class="btn btn-neutral float-left" title="Form" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, evgenyvas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

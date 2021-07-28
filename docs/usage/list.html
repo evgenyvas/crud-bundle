@@ -1,0 +1,491 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>List &mdash; crud-bundle 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Form" href="form.html" />
+    <link rel="prev" title="Install" href="install.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> crud-bundle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">List</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#base-config">Base config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changing-rows-ordering">Changing rows ordering</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="form.html">Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fields.html">Fields</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">crud-bundle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Documentation</a> &raquo;</li>
+        
+      <li>List</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/usage/list.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="list">
+<span id="index-0"></span><h1>List<a class="headerlink" href="#list" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="base-config">
+<h2>Base config<a class="headerlink" href="#base-config" title="Permalink to this headline">¶</a></h2>
+<p>create .xml config in directory <cite>config/crud/</cite>. For example, <cite>user.xml</cite></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;view&gt;
+  &lt;layout id=&quot;users&quot; entity=&quot;\App\Entity\User&quot; path=&quot;/user&quot; controller=&quot;App\Controller\UserController&quot;&gt;
+    &lt;action type=&quot;list&quot; header=&quot;Users&quot;&gt;
+      &lt;row&gt;
+        &lt;position&gt;
+          &lt;elem type=&quot;content&quot;/&gt;
+        &lt;/position&gt;
+      &lt;/row&gt;
+    &lt;/action&gt;
+    &lt;action type=&quot;view&quot; header=&quot;View user attributes&quot;&gt;
+      &lt;block name=&quot;heading&quot; class=&quot;popup-hide&quot;/&gt;
+      &lt;block name=&quot;heading_title&quot;&gt;Viewing user attributes&lt;/block&gt;
+      &lt;row&gt;
+        &lt;position&gt;
+          &lt;elem type=&quot;content&quot;/&gt;
+        &lt;/position&gt;
+      &lt;/row&gt;
+    &lt;/action&gt;
+    &lt;action type=&quot;add&quot; header=&quot;Create user&quot;&gt;
+      &lt;block name=&quot;heading&quot; class=&quot;popup-hide&quot;/&gt;
+      &lt;block name=&quot;heading_title&quot;&gt;Adding a new user&lt;/block&gt;
+      &lt;row&gt;
+        &lt;position&gt;
+          &lt;elem type=&quot;content&quot;/&gt;
+        &lt;/position&gt;
+      &lt;/row&gt;
+    &lt;/action&gt;
+    &lt;action type=&quot;edit&quot; header=&quot;Editing a user&quot;&gt;
+      &lt;block name=&quot;heading&quot; class=&quot;popup-hide&quot;/&gt;
+      &lt;block name=&quot;heading_title&quot;&gt;Editing a user&lt;/block&gt;
+      &lt;row&gt;
+        &lt;position&gt;
+          &lt;elem type=&quot;content&quot;/&gt;
+        &lt;/position&gt;
+      &lt;/row&gt;
+    &lt;/action&gt;
+    &lt;action type=&quot;delete&quot;/&gt;
+  &lt;/layout&gt;
+&lt;/view&gt;
+</pre></div>
+</div>
+<p>create controller, which will be used for crud operations. For example, <cite>src/Controller/UserController.php</cite></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;?php
+
+namespace App\Controller;
+
+use Ecode\CRUDBundle\Service\ObjectFormatter;
+use Ecode\CRUDBundle\Traits\CRUDTrait;
+use Ecode\CRUDBundle\Traits\FilterTrait;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Fields\UserFields;
+
+class UserController extends AbstractController
+{
+    use CRUDTrait, FilterTrait;
+
+    private $dispatcher;
+    private $fmt;
+    private $translator;
+
+    public function __construct(
+        EventDispatcherInterface $dispatcher,
+        ObjectFormatter $fmt,
+        TranslatorInterface $translator,
+        UserFields $fields
+    ) {
+        $this-&gt;dispatcher = $dispatcher;
+        $this-&gt;fmt = $fmt;
+        $this-&gt;translator = $translator;
+        $this-&gt;fields = $fields;
+    }
+}
+</pre></div>
+</div>
+<p>create fields config. For example in file <cite>src/Fields/UserFields.php</cite></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;?php
+
+namespace App\Fields;
+
+class UserFields
+{
+    public function getAttSettings($params=[]) {
+        $att = [
+            &#39;id&#39; =&gt; [
+                &#39;label&#39; =&gt; &#39;Identificator&#39;,
+                &#39;type&#39; =&gt; &#39;number&#39;,
+                &#39;widget&#39; =&gt; &#39;number&#39;,
+                &#39;sort&#39; =&gt; false,
+                &#39;show_list&#39; =&gt; false,
+                &#39;show_view&#39; =&gt; false,
+                &#39;load_list&#39; =&gt; true,
+                &#39;filter&#39; =&gt; false,
+                &#39;render_add&#39; =&gt; false,
+                &#39;show_edit&#39; =&gt; false,
+                &#39;show_print&#39; =&gt; false,
+            ],
+            &#39;name&#39; =&gt; [
+                &#39;label&#39; =&gt; &#39;Name&#39;,
+                &#39;type&#39; =&gt; &#39;string&#39;,
+                &#39;widget&#39; =&gt; &#39;text&#39;,
+                &#39;required&#39; =&gt; &#39;required&#39;,
+                &#39;sort&#39; =&gt; true,
+                &#39;show_list&#39; =&gt; true,
+                &#39;show_add&#39; =&gt; true,
+                &#39;show_edit&#39; =&gt; true,
+            ],
+            &#39;login&#39; =&gt; [
+                &#39;label&#39; =&gt; &#39;Login&#39;,
+                &#39;type&#39; =&gt; &#39;string&#39;,
+                &#39;widget&#39; =&gt; &#39;text&#39;,
+                &#39;required&#39; =&gt; &#39;required&#39;,
+                &#39;sort&#39; =&gt; true,
+                &#39;show_list&#39; =&gt; true,
+                &#39;show_add&#39; =&gt; true,
+                &#39;show_edit&#39; =&gt; true,
+            ],
+            &#39;password&#39; =&gt; [
+                &#39;label&#39; =&gt; &#39;Password&#39;,
+                &#39;repeat_label&#39; =&gt; &#39;Confirm password&#39;,
+                &#39;type&#39; =&gt; &#39;string&#39;,
+                &#39;widget&#39; =&gt; &#39;password&#39;,
+                &#39;required&#39; =&gt; &#39;required&#39;,
+                &#39;sort&#39; =&gt; false,
+                &#39;ignore_format&#39; =&gt; true,
+                &#39;show_list&#39; =&gt; false,
+                &#39;render_list&#39; =&gt; false,
+                &#39;load_list&#39; =&gt; false,
+                &#39;show_view&#39; =&gt; false,
+                &#39;show_add&#39; =&gt; true,
+                &#39;show_edit&#39; =&gt; true,
+                &#39;show_single&#39; =&gt; false,
+                &#39;show_print&#39; =&gt; false,
+                &#39;filter&#39; =&gt; false,
+                &#39;search&#39; =&gt; false,
+            ],
+            &#39;roles&#39; =&gt; [
+                &#39;label&#39; =&gt; &#39;Roles&#39;,
+                &#39;type&#39; =&gt; &#39;json&#39;,
+                &#39;widget&#39; =&gt; &#39;multichoice&#39;,
+                &#39;widget_params&#39; =&gt; [
+                    &#39;expanded&#39; =&gt; true, // checkboxes
+                    &#39;choices&#39; =&gt; [
+                        &#39;Administrator&#39; =&gt; &#39;ROLE_ADMIN&#39;,
+                        &#39;User&#39; =&gt; &#39;ROLE_USER&#39;,
+                    ],
+                ],
+                &#39;required&#39; =&gt; &#39;required&#39;,
+                &#39;sort&#39; =&gt; false,
+                &#39;filter&#39; =&gt; true,
+                &#39;show_list&#39; =&gt; true,
+                &#39;show_add&#39; =&gt; true,
+                &#39;show_edit&#39; =&gt; true,
+                &#39;render_add&#39; =&gt; true,
+                &#39;render_edit&#39; =&gt; true,
+                &#39;show_single&#39; =&gt; false,
+                &#39;show_print&#39; =&gt; false,
+            ],
+        ];
+        return $att;
+    }
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="changing-rows-ordering">
+<h2>Changing rows ordering<a class="headerlink" href="#changing-rows-ordering" title="Permalink to this headline">¶</a></h2>
+<p>To enable changing rows order:</p>
+<ol class="arabic simple">
+<li>add new column in table</li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">field</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ordering&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;integer&quot;</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;ordering&quot;</span> <span class="n">nullable</span><span class="o">=</span><span class="s2">&quot;false&quot;</span><span class="o">/&gt;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>add field config for this column</li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;ordering&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Ordering&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sort&#39;</span> <span class="o">=&gt;</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s1">&#39;show_list&#39;</span> <span class="o">=&gt;</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s1">&#39;show_view&#39;</span> <span class="o">=&gt;</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s1">&#39;load_list&#39;</span> <span class="o">=&gt;</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s1">&#39;change&#39;</span> <span class="o">=&gt;</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s1">&#39;filter&#39;</span> <span class="o">=&gt;</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s1">&#39;render_add&#39;</span> <span class="o">=&gt;</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s1">&#39;show_edit&#39;</span> <span class="o">=&gt;</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s1">&#39;show_print&#39;</span> <span class="o">=&gt;</span> <span class="n">false</span><span class="p">,</span>
+<span class="p">],</span>
+</pre></div>
+</div>
+<p>Table data must return column named <cite>ordering</cite>. If your column has different name, add config like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&#39;ordering&#39; =&gt; [
+    &#39;label&#39; =&gt; &#39;Ordering&#39;,
+    &#39;type&#39; =&gt; &#39;number&#39;,
+    &#39;widget&#39; =&gt; &#39;number&#39;,
+    &#39;sort&#39; =&gt; true,
+    &#39;show_list&#39; =&gt; false,
+    &#39;show_view&#39; =&gt; false,
+    &#39;load_list&#39; =&gt; true,
+    &#39;change&#39; =&gt; false,
+    &#39;filter&#39; =&gt; false,
+    &#39;render_add&#39; =&gt; false,
+    &#39;show_edit&#39; =&gt; false,
+    &#39;show_print&#39; =&gt; false,
+    &#39;format_func&#39; =&gt; function($col_val) {
+        return $col_val[&#39;num&#39;];
+    },
+],
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>add route for save ordering</li>
+</ol>
+<p>config/routes.yaml</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">user_table_save_ordering</span><span class="p">:</span>
+  <span class="n">path</span><span class="p">:</span> <span class="o">/</span><span class="n">user</span><span class="o">/</span><span class="n">table_save_ordering</span>
+  <span class="n">methods</span><span class="p">:</span> <span class="p">[</span><span class="n">POST</span><span class="p">]</span>
+  <span class="n">options</span><span class="p">:</span>
+    <span class="n">expose</span><span class="p">:</span> <span class="n">true</span>
+  <span class="n">controller</span><span class="p">:</span> <span class="n">App</span>\<span class="n">Controller</span>\<span class="n">UserController</span><span class="p">::</span><span class="n">saveOrdering</span>
+</pre></div>
+</div>
+<p>src/Controller/UserController.php</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>public function saveOrdering(Request $request, EntityManagerInterface $em) {
+    $toUpd = json_decode($request-&gt;get(&#39;toUpd&#39;), true);
+
+    $foundEntity = $this-&gt;userRepo-&gt;createQueryBuilder(&#39;e&#39;, &#39;e.id&#39;)
+        -&gt;where(&#39;e.id IN (:ids)&#39;)-&gt;setParameter(&#39;ids&#39;, array_column($toUpd, &#39;id&#39;))
+        -&gt;getQuery()-&gt;getResult();
+    // set null value to escape unique constraint
+    foreach ($foundEntity as $obj) {
+        $obj-&gt;setOrdering(null);
+        $em-&gt;persist($obj);
+    }
+    $em-&gt;flush();
+    foreach ($toUpd as $upd) {
+        $obj = $foundEntity[$upd[&#39;id&#39;]];
+        $obj-&gt;setOrdering($upd[&#39;val&#39;]);
+        $em-&gt;persist($obj);
+    }
+    $em-&gt;flush();
+    return $this-&gt;fmt-&gt;jsonResponse([
+        &#39;status&#39;=&gt;&#39;success&#39;,
+        &#39;message&#39;=&gt;&#39;Successfully saved&#39;,
+    ]);
+}
+</pre></div>
+</div>
+<p>also add in <cite>beforeSave</cite> method</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>public function beforeSave($obj, $request, $formData) {
+    if (!$obj-&gt;getId()) {
+        // get max ordering
+        $res = $this-&gt;userRepo-&gt;createQueryBuilder(&#39;u&#39;)
+            -&gt;select(&#39;MAX(u.ordering)&#39;)
+            -&gt;getQuery()
+            -&gt;getSingleScalarResult();
+        $maxOrdering = $res ? $res + 1 : 1;
+        $obj-&gt;setOrdering($maxOrdering);
+    }
+}
+</pre></div>
+</div>
+<p>templates/user/list.html.twig</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">save_ordering_route</span> <span class="o">=</span> <span class="s1">&#39;user_table_save_ordering&#39;</span> <span class="o">%</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="form.html" class="btn btn-neutral float-right" title="Form" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="install.html" class="btn btn-neutral float-left" title="Install" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, evgenyvas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

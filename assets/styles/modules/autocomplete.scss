@@ -1,0 +1,14 @@
+.v-autocomplete-list {
+    position: absolute;
+    z-index: 100;
+    background-color: #fff;
+    width: 100%;
+    border: 1px solid #ced4da;
+}
+.v-autocomplete-list>.v-autocomplete-list-item {
+    padding: 5px 10px;
+}
+.v-autocomplete-list>.v-autocomplete-list-item:hover {
+    background-color: #007bff;
+    color: #fff;
+}

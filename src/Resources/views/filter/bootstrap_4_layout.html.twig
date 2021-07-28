@@ -1,0 +1,171 @@
+{% use "bootstrap_4_layout.html.twig" %}
+
+{# Widgets #}
+
+{% block form_widget_simple -%}
+    {{- parent() -}}
+{%- endblock form_widget_simple %}
+
+{% block datetime_widget -%}
+    {%- if widget == 'single_text' -%}
+        {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim, autocomplete: 'off'}) -%}
+        <v-datetime-picker id="{{ id }}"{{ block('attributes') }} data-value="{{ value }}" v-model="form.{{ form.vars.id }}" ref="{{ form.vars.id }}" :config="configs.{{- form.vars.id -}}"></v-datetime-picker>
+        <input type="hidden" name="{{ full_name }}" ref="{{ id }}_value"/>
+    {%- else -%}
+        {{- parent() -}}
+    {%- endif -%}
+{%- endblock datetime_widget %}
+
+{% block date_widget -%}
+    {%- if widget == 'single_text' -%}
+        {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim, autocomplete: 'off'}) -%}
+        <v-datetime-picker id="{{ id }}"{{ block('attributes') }} data-value="{{ value }}" v-model="form.{{ form.vars.id }}" ref="{{ form.vars.id }}" :config="configs.{{- form.vars.id -}}"></v-datetime-picker>
+        <input type="hidden" name="{{ full_name }}" ref="{{ id }}_value"/>
+    {%- else -%}
+        {{- parent() -}}
+    {%- endif -%}
+{%- endblock date_widget %}
+
+{% block numrangefilter_widget -%}
+<div class="container num-range-wrap">
+  <div class="row">
+    {%- if form.mod is defined -%}
+    <div class="col-12 p-0 filter-mod-wrap">
+      {{- form_label(form.mod) -}}
+      {{- form_widget(form.mod) -}}
+    </div>
+    {%- endif -%}
+    <div class="col-6 p-0">
+      {{- form_label(form.from) -}}
+      {{- form_widget(form.from) -}}
+    </div>
+    <div class="col-6 p-0">
+      {{- form_label(form.to) -}}
+      {{- form_widget(form.to) -}}
+    </div>
+  </div>
+</div>
+{%- endblock numrangefilter_widget %}
+
+{% block daterangefilter_widget -%}
+<div class="container date-range-wrap">
+  <div class="row">
+    {%- if form.mod is defined -%}
+    <div class="col-12 p-0 filter-mod-wrap">
+      {{- form_label(form.mod) -}}
+      {{- form_widget(form.mod) -}}
+    </div>
+    {%- endif -%}
+    <div class="col-6 p-0">
+      {{- form_label(form.since) -}}
+      {{- form_widget(form.since) -}}
+    </div>
+    <div class="col-6 p-0">
+      {{- form_label(form.until) -}}
+      {{- form_widget(form.until) -}}
+    </div>
+  </div>
+</div>
+{%- endblock daterangefilter_widget %}
+
+{% block datetimerangefilter_widget -%}
+<div class="container datetime-range-wrap">
+  <div class="row">
+    {%- if form.mod is defined -%}
+    <div class="col-12 p-0 filter-mod-wrap">
+      {{- form_label(form.mod) -}}
+      {{- form_widget(form.mod) -}}
+    </div>
+    {%- endif -%}
+    <div class="col-6 p-0">
+      {{- form_label(form.since) -}}
+      {{- form_widget(form.since) -}}
+    </div>
+    <div class="col-6 p-0">
+      {{- form_label(form.until) -}}
+      {{- form_widget(form.until) -}}
+    </div>
+  </div>
+</div>
+{%- endblock datetimerangefilter_widget %}
+
+{% block selectautocomplete_widget -%}
+    <v-select id="{{ id }}"{{ block('attributes') }} :options="configs.{{ id }}.options" :filterable="false" v-model="form.{{ id }}" ref="{{ id }}" @search="onSearch('{{ id }}', '{{ route }}', ...arguments)">
+      <template v-slot:no-options>{% trans from 'crud_filter' %}no suitable options{% endtrans %}</template>
+    </v-select>
+    <input type="hidden" name="{{ full_name }}" ref="{{ id }}_value"/>
+{%- endblock selectautocomplete_widget %}
+
+{% block multiselectautocomplete_widget -%}
+    <v-select id="{{ id }}"{{ block('attributes') }} :options="{% if opt_init is defined and opt_init %}{{ opt_init }}{% else %}configs.{{ id }}.options{% endif %}" :filterable="false" :multiple="true" v-model="form.{{ id }}" ref="{{ id }}"{% if route is defined and route %} @search="onSearch('{{ id }}', '{{ route }}', ...arguments)"{% endif %}>
+      <template v-slot:no-options>{% trans from 'crud_filter' %}no suitable options{% endtrans %}</template>
+    </v-select>
+    <input type="hidden" name="{{ full_name }}" ref="{{ id }}_value"/>
+{%- endblock multiselectautocomplete_widget %}
+
+{# Rows #}
+
+{% block form_row -%}
+    {%- if compound is defined and compound -%}
+        {%- set element = 'fieldset' -%}
+    {%- endif -%}
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    <{{ element|default('div') }} class="form-group">
+        {% if form.vars.name == 'mod' %}<div class="filter-mod-wrap">{% endif %}
+        {{- form_label(form) -}}
+        {{- form_widget(form, widget_attr) -}}
+        {{- form_help(form) -}}
+        {% if form.vars.name == 'mod' %}</div>{% endif %}
+    </{{ element|default('div') }}>
+{%- endblock form_row %}
+
+{# Misc #}
+
+{%- block form_start -%}
+    {% if date_format is not defined %}
+      {% set date_format = 'Y-m-d' %}
+    {% endif %}
+    {% if datetime_format is not defined %}
+      {% set datetime_format = 'Y-m-d H:i' %}
+    {% endif %}
+    <v-filter{% if action != '' %} formname="{{ name }}" action="{{ action }}"{% endif %}{%- if grid_ref is defined and grid_ref -%} grid-ref="{{ grid_ref }}"{% endif %}{%- if extra_ref is defined and extra_ref -%} extra-ref="{{ extra_ref }}"{% endif %} fields="{{ fields|json_encode }}"{%- if saved_filters is defined and saved_filters -%} saved-filters="{{ saved_filters|json_encode }}"{% endif %}{%- if entity is defined and entity -%} entity="{{ entity }}"{% endif %} date-format="{{ date_format }}" datetime-format="{{ datetime_format }}"{%- if filter_is_show is defined -%} :is-show="{{ filter_is_show ? 'true' : 'false' }}"{% endif %} locale="{{ app.request.locale }}" inline-template><div class="filter-content">
+    {%- set attr = attr|merge({ref: 'form', '@submit': 'onSubmit'}) -%}
+    <form id="{{ id }}"{% if name != '' %} name="{{ name }}"{% endif %} method="POST"{% if action != '' %} action="{{ action }}"{% endif %}{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
+{%- endblock form_start -%}
+
+{%- block form_end -%}
+    {%- if not render_rest is defined or render_rest -%}
+        {{ form_rest(form) }}
+    {%- endif -%}
+    </form>
+    <b-modal
+      ref="modalSave"
+      title="{% trans from 'crud_filter' %}Save filter{% endtrans %}"
+      ok-title="{% trans from 'crud_filter' %}Yes{% endtrans %}"
+      cancel-title="{% trans from 'crud_filter' %}No{% endtrans %}"
+      @show="resetModalSave"
+      @hidden="resetModalSave"
+      @ok="handleSaveOk"
+      centered
+    >
+      <form ref="formSave" @submit.stop.prevent="handleSaveSubmit">
+        <b-form-group
+          :state="filterSaveNameState"
+          label="{% trans from 'crud_filter' %}Title{% endtrans %}"
+          label-for="filter-name-input"
+          invalid-feedback="{% trans from 'crud_filter' %}You must enter a title for the filter{% endtrans %}"
+        >
+          <b-form-input
+            id="filter-name-input"
+            v-model="filterSaveName"
+            :state="filterSaveNameState"
+            required
+          ></b-form-input>
+        </b-form-group>
+      </form>
+    </b-modal>
+    </div></v-filter>
+{%- endblock form_end -%}

@@ -1,0 +1,43 @@
+services:
+  # default configuration for services in *this* file
+  _defaults:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+  Ecode\CRUDBundle\Controller\:
+    resource: '../../Controller'
+    tags: ['controller.service_arguments']
+
+  Ecode\CRUDBundle\Filter\:
+    resource: '../../Filter/*'
+
+  Ecode\CRUDBundle\Form\:
+    resource: '../../Form/*'
+
+  Ecode\CRUDBundle\Service\:
+    resource: '../../Service/*'
+
+  Ecode\CRUDBundle\Filter\Query\:
+    resource: '../../Filter/Query/*'
+    tags: ['crud.filter']
+
+  Ecode\CRUDBundle\Service\FormTypeManager:
+    arguments:
+      - !tagged_iterator crud.form.type
+
+  Ecode\CRUDBundle\Service\FilterTypeManager:
+    arguments:
+      - !tagged_iterator crud.filter.type
+
+  Ecode\CRUDBundle\Service\FilterManager:
+    arguments:
+      - !tagged_iterator crud.filter
+
+  Ecode\CRUDBundle\Twig\:
+    resource: '../../Twig/*'
+
+  Ecode\CRUDBundle\Utils\:
+    resource: '../../Utils/*'
+
+  Ecode\CRUDBundle\Routing\LayoutLoader:
+    tags: [routing.loader]

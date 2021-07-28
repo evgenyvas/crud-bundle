@@ -1,0 +1,260 @@
+{# Widgets #}
+
+{%- block form_widget -%}
+    {% if compound %}
+        {{- block('form_widget_compound') -}}
+    {% else %}
+        {{- block('form_widget_simple') -}}
+    {% endif %}
+{%- endblock form_widget -%}
+
+{%- block form_widget_simple -%}
+    {% if value is not empty %}{{ value }}{% else %}—{% endif %}
+{%- endblock form_widget_simple -%}
+
+{%- block form_widget_compound -%}
+    <div {{ block('widget_container_attributes') }}>
+        {%- if form is rootform -%}
+            {{ form_errors(form) }}
+        {%- endif -%}
+        {{- block('form_rows') -}}
+        {{- form_rest(form) -}}
+    </div>
+{%- endblock form_widget_compound -%}
+
+{%- block collection_widget -%}
+    {% if prototype is defined and not prototype.rendered %}
+        {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
+    {% endif %}
+    {{- block('form_widget') -}}
+{%- endblock collection_widget -%}
+
+{%- block textarea_widget -%}
+    <div {{ block('widget_attributes') }}>{{ value }}</div>
+{%- endblock textarea_widget -%}
+
+{%- block choice_widget -%}
+    {% if expanded %}
+        {{- block('choice_widget_expanded') -}}
+    {% else %}
+        {{- block('choice_widget_collapsed') -}}
+    {% endif %}
+{%- endblock choice_widget -%}
+
+{%- block choice_widget_expanded -%}
+    <b-list-group {{ block('widget_container_attributes') }}>
+    {%- for child in form %}
+        {% if child.vars.checked %}
+            <b-list-group-item>{{- form_label(child, null, {translation_domain: choice_translation_domain}) -}}</b-list-group-item>
+        {% endif %}
+    {% endfor -%}
+    </b-list-group>
+{%- endblock choice_widget_expanded -%}
+
+{%- block choice_widget_collapsed -%}
+    {%- if preferred_choices|length > 0 -%}
+        {% set options = preferred_choices %}
+        {% set render_preferred_choices = true %}
+        {{- block('choice_widget_options') -}}
+    {%- endif -%}
+    {%- set options = choices -%}
+    {{- block('choice_widget_options') -}}
+{%- endblock choice_widget_collapsed -%}
+
+{%- block choice_widget_options -%}
+    {% for group_label, choice in options %}
+        {%- if choice is iterable -%}
+            {% set options = choice %}
+            {{- block('choice_widget_options') -}}
+        {%- else -%}
+            {% if not render_preferred_choices|default(false) and choice is selectedchoice(value) %}{{ choice_translation_domain is same as(false) ? choice.label : choice.label|trans({}, choice_translation_domain) }}{% endif %}
+        {%- endif -%}
+    {% endfor %}
+{%- endblock choice_widget_options -%}
+
+{%- block hidden_widget -%}
+    {# print nothing #}
+{%- endblock hidden_widget -%}
+
+{%- block checkbox_widget -%}
+    {% if checked %}{% trans from 'crud_form' %}Yes{% endtrans %}{% else %}{% trans from 'crud_form' %}No{% endtrans %}{% endif %}
+{%- endblock checkbox_widget -%}
+
+{%- block datetime_widget -%}
+    {% if form.vars.data is not empty %}{{ form.vars.data|date('Y.m.d H:i:s') }}{% endif %}
+{%- endblock datetime_widget -%}
+
+{%- block date_widget -%}
+    {{ block('form_widget_simple') }}
+{%- endblock date_widget -%}
+
+{%- block time_widget -%}
+    {{ block('form_widget_simple') }}
+{%- endblock time_widget -%}
+
+{%- block number_widget -%}
+    {{ block('form_widget_simple') }}
+{%- endblock number_widget -%}
+
+{%- block integer_widget -%}
+    {{ block('form_widget_simple') }}
+{%- endblock integer_widget -%}
+
+{%- block money_widget -%}
+    {{ money_pattern|form_encode_currency(block('form_widget_simple')) }}
+{%- endblock money_widget -%}
+
+{%- block url_widget -%}
+    {{ block('form_widget_simple') }}
+{%- endblock url_widget -%}
+
+{%- block search_widget -%}
+    {{ block('form_widget_simple') }}
+{%- endblock search_widget -%}
+
+{%- block percent_widget -%}
+    {{ block('form_widget_simple') }}{% if symbol %} {{ symbol|default('%') }}{% endif %}
+{%- endblock percent_widget -%}
+
+{%- block email_widget -%}
+    {{ block('form_widget_simple') }}
+{%- endblock email_widget -%}
+
+{%- block range_widget -%}
+    {{- block('form_widget_simple') -}}
+{%- endblock range_widget %}
+
+{%- block tel_widget -%}
+    {{ block('form_widget_simple') }}
+{%- endblock tel_widget -%}
+
+{%- block color_widget -%}
+    {{ block('form_widget_simple') }}
+{%- endblock color_widget -%}
+
+{%- block week_widget -%}
+    {{ block('form_widget_simple') }}
+{%- endblock week_widget -%}
+
+{% block selectautocomplete_widget -%}
+  {% if init_data.label is defined %}
+    {{ init_data.label }}
+  {% endif %}
+{%- endblock selectautocomplete_widget %}
+
+{% block file_widget -%}
+    {%- if form.vars.data.filename is defined and form.vars.data.filename -%}
+    <div class="image-edit image">
+      <img src="{{ form.vars.data|image_base64 }}">
+    </div>
+    {%- endif -%}
+{% endblock %}
+
+{# Labels #}
+
+{%- block form_label -%}
+    {% if label is not same as(false) -%}
+        {%- if translation_domain is same as(false) -%}
+            {{- label -}}
+        {%- else -%}
+            {{- label|trans(label_translation_parameters, translation_domain) -}}
+        {%- endif -%}
+    {%- endif -%}
+{%- endblock form_label -%}
+
+{# Rows #}
+
+{%- block form_row -%}
+    {%- set widget_attr = {} -%}
+    <tr{% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
+        <th scope="row">{{- form_label(form) -}}</th>
+        <td>{{- form_widget(form, widget_attr) -}}</td>
+    </tr>
+{%- endblock form_row -%}
+
+{# Misc #}
+
+{%- block form -%}
+    {{ form_start(form) }}
+        {{- form_widget(form) -}}
+    {{ form_end(form) }}
+{%- endblock form -%}
+
+{%- block form_start -%}
+    <table class="table table-hover"><tbody>
+{%- endblock form_start -%}
+
+{%- block form_end -%}
+    {%- if not render_rest is defined or render_rest -%}
+        {{ form_rest(form) }}
+    {%- endif -%}
+    </tbody></table>
+{%- endblock form_end -%}
+
+{%- block form_rest -%}
+    {% for child in form -%}
+        {% if not child.rendered %}
+            {{- form_row(child) -}}
+        {% endif %}
+    {%- endfor -%}
+{% endblock form_rest %}
+
+{# Support #}
+
+{%- block form_rows -%}
+    {% for child in form|filter(child => not child.rendered) %}
+        {{- form_row(child) -}}
+    {% endfor %}
+{%- endblock form_rows -%}
+
+{%- block widget_attributes -%}
+    id="{{ id }}" name="{{ full_name }}"
+    {%- if disabled %} disabled="disabled"{% endif -%}
+    {%- if required %} required="required"{% endif -%}
+    {{ block('attributes') }}
+{%- endblock widget_attributes -%}
+
+{%- block widget_container_attributes -%}
+    {%- if id is not empty %}id="{{ id }}"{% endif -%}
+    {{ block('attributes') }}
+{%- endblock widget_container_attributes -%}
+
+{% block attributes -%}
+    {%- for attrname, attrvalue in attr -%}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ translation_domain is same as(false) ? attrvalue : attrvalue|trans(attr_translation_parameters, translation_domain) }}"
+        {%- elseif attrvalue is same as(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not same as(false) -%}
+            {{- attrname }}="{{ attrvalue }}"
+        {%- endif -%}
+    {%- endfor -%}
+{%- endblock attributes -%}
+
+{% block subformadd_widget -%}
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        {%- for key, col_label in labels %}
+          <th>
+              {{- col_label -}}
+          </th>
+        {% endfor -%}
+      </tr>
+    </thead>
+    <tbody>
+      {% for subform in form %}
+        {{ form_widget(subform) }}
+      {% endfor %}
+    </tbody>
+  </table>
+{%- endblock subformadd_widget %}
+
+{% block subformsingleadd_widget -%}
+  <tr class="subform-single">
+  {% for field in form %}
+    <td>{{- form_widget(field) -}}</td>
+  {% endfor %}
+  </tr>
+{%- endblock subformsingleadd_widget %}

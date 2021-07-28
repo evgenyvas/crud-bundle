@@ -1,0 +1,102 @@
+{% extends '@CRUD/object/layout.html.twig' %}
+
+{% form_theme form '@CRUD/filter/bootstrap_4_layout.html.twig' %}
+
+{% if render_search is not defined %}
+    {% set render_search = true %}
+{% endif %}
+
+{% block content %}
+    {% if save_filter is not defined %}
+        {% set save_filter = true %}
+    {% endif %}
+    {% if field %}
+        {# render single field #}
+        {% if attribute(form.filtermain, field) is defined %}
+            {{ form_row(attribute(form.filtermain, field)) }}
+        {% elseif attribute(form.filteradd, field) is defined %}
+            {{ form_row(attribute(form.filteradd, field)) }}
+        {% endif %}
+    {% else %}
+        <div class="filter-wrap">
+        {{ form_start(form, {'attr': {':novalidate': 'true'}, 'grid_ref': grid_ref, 'multipart': true, 'saved_filters': saved_filters, 'entity': layout}) }}
+          <b-overlay :show="filtersLoading">
+            <div class="row">
+                <div class="col-12">
+                    {% if render_search %}
+                    <ul class="nav nav-tabs row filter-tabsearch-wrap">
+                        <div class="col-6 filter-search pr-1" ref="search-field-wrap">
+                            {{ form_widget(form.search) }}
+                        </div>
+                        <li class="col-6 nav-item pl-0">
+                            <a class="nav-link toggle-add" :class="{ 'active': addShow }" href="#" @click.prevent="onAddToggle">{% trans from 'crud_filter' %}Additional filtering conditions{% endtrans %}</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" :class="{ 'd-none': !addShow }">
+                        <div class="tab-pane" :class="{ 'active': addShow }">
+                    {% endif %}
+                            <div class="filter-add container-fluid">
+                                <div class="row">
+                                {% for item in form.filteradd %}
+                                    {% if item.vars.width>0 %}
+                                    <b-card header-class="pt-0 pb-0 pl-2 pr-2" body-class="p-2" class="col-{{ item.vars.width }} p-0">
+                                        <template slot="header">{{ form_label(item) }}</template>
+                                        <div class="card-text">{{ form_widget(item) }}</div>
+                                    </b-card>
+                                    {% endif %}
+                                {% endfor %}
+                                </div>
+                            </div>
+                    {% if render_search %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% if form.filtermain.children is not empty %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="filter-main mt-1 container-fluid">
+                            <div class="row">
+                            {% for item in form.filtermain %}
+                                <b-card header-class="pt-0 pb-0 pl-2 pr-2" body-class="p-2" class="col-{{ item.vars.width }} p-0">
+                                    {% if item.vars.headerhide is not defined %}
+                                    <template slot="header">{{ form_label(item) }}</template>
+                                    {% endif %}
+                                    <div class="card-text">{{ form_widget(item) }}</div>
+                                </b-card>
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="row filter-bottom clearfix mt-2">
+                <div class="col-12">
+                    <input type="hidden" name="grid_ref" value="{{ grid_ref }}"/>
+                    <b-button type="submit" variant="primary">{% trans from 'crud_filter' %}Search{% endtrans %}</b-button>
+                    <b-button type="button" variant="secondary" v-if="showReset" @click="resetFilters">{% trans from 'crud_filter' %}Filter reset{% endtrans %}</b-button>
+                    {% if save_filter %}
+                        <b-button type="button" variant="outline-secondary" v-if="showSave" @click.stop.prevent="showModalSave($event)">{% trans from 'crud_filter' %}Save filter{% endtrans %}</b-button>
+                        <b-button type="button" variant="outline-danger" v-if="showDel" @click="delFilters">{% trans from 'crud_filter' %}Remove filter{% endtrans %}</b-button>
+                    {% endif %}
+                </div>
+            </div>
+            {% if save_filter and saved_filters %}
+            <div class="saved-filters-wrap col-12">
+                <div class="row">
+                    <fieldset class="form-group">
+                        <legend class="">{% trans from 'crud_filter' %}Saved filters{% endtrans %}</legend>
+                        {% verbatim %}
+                        <b-button type="button" class="mr-1" :pressed="savedFiltersData[index].enabled" v-for="(flt, index) in savedFiltersData" :key="index" variant="outline-success" @click="applySavedFilter($event, index)">{{ flt.title }}</b-button>
+                        {% endverbatim %}
+                    </fieldset>
+                </div>
+            </div>
+            {% endif %}
+            </b-overlay>
+        {{ form_widget(form._token) }}
+        {{ form_end(form, {'render_rest': false}) }}
+        </div>
+    {% endif %}
+{% endblock %}

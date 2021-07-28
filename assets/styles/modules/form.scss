@@ -1,0 +1,20 @@
+
+.col-form-label.required:before, label.required:before {
+    content: "* ";
+    color: red;
+}
+
+.form-check label:before {
+    content: "";
+}
+
+.flatpickr-wrapper {
+    display: block;
+}
+.option-label {
+    margin-bottom: 0;
+    margin-left: 12px;
+}
+
+.custom-file-label { opacity: 0 !important; }
+.custom-file-input { opacity: 1 !important; }

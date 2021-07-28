@@ -1,0 +1,27 @@
+{
+    "name": "evgenyvas/crud-bundle",
+    "type": "symfony-bundle",
+    "description": "This Bundle provides CRUD operations for Symfony",
+    "keywords": ["crud","symfony","symfony-ux"],
+    "homepage": "https://github.com/evgenyvas/crud-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Evgeny Vasiliev",
+            "email": "evgnvas@gmail.com"
+        }
+    ],
+    "autoload":{
+        "psr-4":{
+            "Ecode\\CRUDBundle\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^7.3.9",
+        "symfony/form": "5.3.*",
+        "symfony/finder": "5.3.*",
+        "friendsofsymfony/jsrouting-bundle": "^2.7"
+    },
+    "require-dev": {
+    }
+}

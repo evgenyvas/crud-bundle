@@ -1,0 +1,34 @@
+Yes: Да
+No: Нет
+Add: Добавить
+View: Посмотреть
+Edit: Редактировать
+Are you sure you want to delete this item?: Вы действительно хотите удалить этот элемент?
+Delete: Удалить
+Nothing found: Ничего не найдено
+Refresh: Обновить
+Toggle: Переключить
+Print: Печать
+Column settings: Настройки столбцов
+Field options: Параметры полей
+Column name in header: Наименование столбца в заголовке
+Show column: Показывать столбец
+Sort by column: Сортировать по столбцу
+delete selected field settings: удалить выбранные настройки полей
+save changes to field parameters: сохранить изменения параметров полей
+Save changes: Сохранить изменения
+Saved columns: Сохранённые столбцы
+Loading...: Загрузка...
+Deleting: Удаление
+Show from %pageFrom% to %pageTo% rows from %totalRows% total: Показывать от %pageFrom% до %pageTo% строк из %totalRows% всего
+on page: на странице
+Enter the title: Введите название
+Save: Сохранить
+Close: Закрыть
+Title: Название
+Title cannot be empty: Название не может быть пустым
+Parameters saved successfully: Параметры успешно сохранены
+Parameters not found: Параметры не найдены
+Parameters deleted successfully: Параметры успешно удалены
+Parameters did not change: Параметры не изменялись
+Successfully deleted: Успешно удалено

@@ -1,0 +1,43 @@
+Yes: Да
+No: Нет
+equal: равно
+not equal: не равно
+contains: содержит
+not contains: не содержит
+more: больше
+more or equal: больше либо равно
+less: меньше
+less or equal: меньше либо равно
+not filled: не заполнено
+any value: любое значение
+Today: Сегодня
+Week: Неделя
+A week ahead: Неделя вперёд
+Current week: Текущая неделя
+Month: Месяц
+A month ahead: Месяц вперёд
+Current month: Текущий месяц
+Quarter: Квартал
+Quarter ahead: Квартал вперёд
+Current quarter: Текущий квартал
+Half a year: Полгода
+9 months: 9 месяцев
+Year: Год
+Year ahead: Год вперёд
+Current year: Текущий год
+no suitable options: нет подходящих вариантов
+Title: Название
+You must enter a title for the filter: Необходимо ввести название фильтра
+Neither: Никакой
+from: от
+to: до
+Additional filtering conditions: Дополнительные условия фильтрации
+Search: Искать
+Filter reset: Сброс фильтра
+Save filter: Сохранить фильтр
+Remove filter: Удалить фильтр
+Saved filters: Сохранённые фильтры
+The filter is empty: Фильтр не заполнен
+Filter saved successfully: Фильтр успешно сохранён
+Filter not found: Фильтр не найден
+Filter successfully removed: Фильтр успешно удалён

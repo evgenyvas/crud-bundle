@@ -1,0 +1,5 @@
+num_of_filter_options: >-
+    {num, plural,
+        one   {please select filtering options for the field}
+        other {please select filtering options for the fields}
+    }

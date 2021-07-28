@@ -1,0 +1,25 @@
+@media print {
+}
+
+body.vue-bs-table-print {
+    margin: 0;
+    padding: 0;
+    line-height: 1.4em;
+    word-spacing: 1px;
+    letter-spacing: 0.2px;
+    font: 13px Arial, Helvetica,"Lucida Grande", serif;
+    color: #000;
+
+    th.sorting::before, th.sorting::after {
+        content: none !important;
+    }
+
+    .grid-operate-wrap {
+        display: none;
+    }
+
+    .table-responsive {
+        overflow-x: initial;
+    }
+}
+

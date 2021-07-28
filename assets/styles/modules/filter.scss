@@ -1,0 +1,23 @@
+
+.filter-wrap .filter-mod-wrap>.form-control {
+    width: auto;
+}
+.filter-wrap .filter-tabsearch-wrap {
+    border-bottom: 0;
+}
+.filter-wrap .toggle-add {
+    padding: 0.6rem 1rem;
+}
+.filter-wrap .toggle-add:not(.active) {
+    border-color: transparent;
+}
+.filter-wrap .toggle-add:hover {
+    background-color: #eee;
+}
+.filter-wrap .card-body .form-group {
+    margin: 0;
+}
+.filter-wrap .card-header {
+    font-weight: bold;
+}
+

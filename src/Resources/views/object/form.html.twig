@@ -1,0 +1,17 @@
+{% extends '@CRUD/object/layout.html.twig' %}
+
+{% form_theme form '@CRUD/form/bootstrap_4_layout.html.twig' %}
+
+{% if grid_ref is not defined %}
+    {% set grid_ref = '' %}
+{% endif %}
+
+{% block content %}
+    {{ form_start(form, {'method': 'POST', 'attr': {':novalidate': 'true'}, 'grid_ref': grid_ref, 'multipart': true, 'success_close': true}) }}
+    {{ form_widget(form) }}
+    <input type="hidden" name="grid_ref" value="{{ grid_ref }}"/>
+    <form-modal-footer>
+    <b-button type="submit" variant="primary" form="{{ form.vars.id }}">{% trans from 'crud_form' %}Save{% endtrans %}</b-button>
+    </form-modal-footer>
+    {{ form_end(form) }}
+{% endblock %}
